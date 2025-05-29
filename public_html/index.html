@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LeeuwenBot Chat</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f4f4; }
+    h1 { text-align: center; margin-top: 30px; color: #2c3e50; }
+    .chat-container { max-width: 600px; margin: 20px auto; background: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); overflow: hidden; }
+    .messages { padding: 20px; height: 400px; overflow-y: auto; }
+    .message { margin-bottom: 15px; display: flex; align-items: flex-start; }
+    .bot .bubble { background-color: #e0f7e9; margin-left: 10px; padding: 10px; border-radius: 10px; max-width: 80%; }
+    .user .bubble { background-color: #cde3ff; margin-left: auto; margin-right: 10px; padding: 10px; border-radius: 10px; max-width: 80%; }
+    .bot img { width: 40px; height: 40px; border-radius: 50%; }
+    .input-container { display: flex; border-top: 1px solid #ccc; }
+    input[type="text"] { flex: 1; padding: 15px; border: none; font-size: 16px; }
+    button { padding: 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Laboratorio de Microbiología Aplicada</h1>
+
+  <div class="chat-container">
+    <div class="messages" id="chat"></div>
+    <div class="input-container">
+      <input type="text" id="input" placeholder="Escribe tu pregunta aquí..." />
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+
+  <script>
+    const chatDiv = document.getElementById("chat");
+
+    function addMessage(content, sender) {
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `message ${sender}`;
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      bubble.textContent = content;
+      if (sender === "bot") {
+        const avatar = document.createElement("img");
+        avatar.src = "/images/avatarbot1.jpg";
+        msgDiv.appendChild(avatar);
+      }
+      msgDiv.appendChild(bubble);
+      chatDiv.appendChild(msgDiv);
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById("input");
+      const userMessage = input.value.trim();
+      if (!userMessage) return;
+      addMessage(userMessage, "user");
+      input.value = "";
+
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message: userMessage })
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        addMessage(data.reply || "No se recibió respuesta del asistente.", "bot");
+
+      } catch (err) {
+        console.error("❌ Error en el frontend:", err);
+        addMessage("Hubo un error al obtener respuesta. Revisa la consola del servidor.", "bot");
+      }
+    }
+  </script>
+</body>
+</html>
