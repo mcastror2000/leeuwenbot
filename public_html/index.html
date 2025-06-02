@@ -76,6 +76,13 @@
         addMessage("Hubo un error al obtener respuesta. Revisa la consola del servidor.", "bot");
       }
     }
+
+    // Permitir envío con Enter
+    document.getElementById("input").addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    });
   </script>
 </body>
 </html>
