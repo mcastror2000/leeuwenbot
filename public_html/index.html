@@ -5,17 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LeeuwenBot Chat</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f4f4; }
-    h1 { text-align: center; margin-top: 30px; color: #2c3e50; }
-    .chat-container { max-width: 600px; margin: 20px auto; background: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); overflow: hidden; }
-    .messages { padding: 20px; height: 400px; overflow-y: auto; }
-    .message { margin-bottom: 15px; display: flex; align-items: flex-start; }
-    .bot .bubble { background-color: #e0f7e9; margin-left: 10px; padding: 10px; border-radius: 10px; max-width: 80%; }
-    .user .bubble { background-color: #cde3ff; margin-left: auto; margin-right: 10px; padding: 10px; border-radius: 10px; max-width: 80%; }
-    .bot img { width: 40px; height: 40px; border-radius: 50%; }
-    .input-container { display: flex; border-top: 1px solid #ccc; }
-    input[type="text"] { flex: 1; padding: 15px; border: none; font-size: 16px; }
-    button { padding: 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 30px;
+      color: #2c3e50;
+    }
+    .chat-container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .messages {
+      padding: 20px;
+      height: 400px;
+      overflow-y: auto;
+    }
+    .message {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: flex-start;
+    }
+    .bot .bubble {
+      background-color: #e0f7e9;
+      margin-left: 10px;
+      padding: 12px 15px;
+      border-radius: 20px;
+      max-width: 80%;
+      white-space: pre-line;
+    }
+    .user .bubble {
+      background-color: #cde3ff;
+      margin-left: auto;
+      margin-right: 10px;
+      padding: 12px 15px;
+      border-radius: 20px;
+      max-width: 80%;
+      white-space: pre-line;
+    }
+    .bot img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .input-container {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      font-size: 16px;
+    }
+    button {
+      padding: 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -82,6 +138,12 @@
       if (event.key === "Enter") {
         sendMessage();
       }
+    });
+
+    // Mostrar mensaje de bienvenida al cargar
+    window.addEventListener("DOMContentLoaded", () => {
+      const bienvenida = "¡Hola! Soy LeeuwenBot, tu asistente del Laboratorio de Microbiología Aplicada. ¿En qué puedo ayudarte hoy?";
+      addMessage(bienvenida, "bot");
     });
   </script>
 </body>
