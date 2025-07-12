@@ -66,9 +66,10 @@ app.post('/api/chat', async (req, res) => {
 
     if (assistantMessage && Array.isArray(assistantMessage.content)) {
       const textPart = assistantMessage.content.find(part => part.type === 'text');
-      if (textPart?.text?.value) {
-        reply = textPart.text.value;
-      }
+     if (textPart?.text?.value) {
+  // Elimina citas tipo   usando una expresión regular
+  reply = textPart.text.value.replace(/【\d+:\d+†source】/g, '');
+}
     }
 
     res.json({ reply });
